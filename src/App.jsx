@@ -290,9 +290,9 @@ export default function App() {
       <section id="portfolio" className="py-24 bg-neutral-950 text-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div className="mb-6 md:mb-0 text-center md:text-left">
+            <div className="mb-6 md:mb-0">
               <h2 className="text-4xl font-bold mb-2">Selected Work</h2>
-              <div className="w-20 h-1 bg-red-600 mx-auto md:mx-0"></div>
+              <div className="w-20 h-1 bg-red-600"></div>
             </div>
             
             {/* Filter Buttons */}
