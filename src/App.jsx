@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Camera, 
-  Video, 
-  Megaphone, 
-  TrendingUp, 
-  Menu, 
-  X, 
-  Instagram, 
-  Linkedin, 
-  Mail, 
+import {
+  Camera,
+  Video,
+  Megaphone,
+  TrendingUp,
+  Menu,
+  X,
+  Instagram,
+  Linkedin,
+  Mail,
   ArrowRight,
   Play,
   Image as ImageIcon,
-  CheckCircle
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 // --- Data & Content ---
@@ -48,9 +50,19 @@ const portfolioItems = [
   {
     id: 1,
     category: "Photography",
-    title: "Urban Fashion",
-    client: "StreetStyle Co.",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800",
+    title: "Motorcar Cavalcade",
+    client: "Celebrating the Art and Evolution of the Automobile",
+    image: "/portfolio/photography/motorcar-cavalcade/thumbnail.jpg",
+    imagePosition: "object-[center_35%]",
+    gallery: [
+      "/portfolio/photography/motorcar-cavalcade/1.jpg",
+      "/portfolio/photography/motorcar-cavalcade/2.jpg",
+      "/portfolio/photography/motorcar-cavalcade/3.jpg",
+      "/portfolio/photography/motorcar-cavalcade/4.jpg",
+      "/portfolio/photography/motorcar-cavalcade/5.jpg",
+      "/portfolio/photography/motorcar-cavalcade/6.jpg",
+      "/portfolio/photography/motorcar-cavalcade/7.jpg"
+    ]
   },
   {
     id: 2,
@@ -58,6 +70,7 @@ const portfolioItems = [
     title: "Coffee Shop Promo",
     client: "Brew & Bean",
     image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
+    gallery: [] // Video items will be handled differently later
   },
   {
     id: 3,
@@ -65,13 +78,33 @@ const portfolioItems = [
     title: "Summer Campaign",
     client: "Florida Resorts",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200",
+      "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=1200",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200"
+    ]
   },
   {
     id: 4,
     category: "Photography",
-    title: "Tech Product Launch",
-    client: "Innovate FL",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800",
+    title: "Preferred Exotics",
+    client: "Miami's Luxury Vehicle Rental",
+    image: "/portfolio/photography/preferred-exotics/thumbnail.jpg",
+    gallery: [
+      "/portfolio/photography/preferred-exotics/1.jpg",
+      "/portfolio/photography/preferred-exotics/2.jpg",
+      "/portfolio/photography/preferred-exotics/3.jpg",
+      "/portfolio/photography/preferred-exotics/4.jpg",
+      "/portfolio/photography/preferred-exotics/5.jpg",
+      "/portfolio/photography/preferred-exotics/6.jpg",
+      "/portfolio/photography/preferred-exotics/7.jpg",
+      "/portfolio/photography/preferred-exotics/8.jpg",
+      "/portfolio/photography/preferred-exotics/9.jpg",
+      "/portfolio/photography/preferred-exotics/10.jpg",
+      "/portfolio/photography/preferred-exotics/11.jpg",
+      "/portfolio/photography/preferred-exotics/12.jpg",
+      "/portfolio/photography/preferred-exotics/13.jpg"
+    ]
   },
   {
     id: 5,
@@ -79,6 +112,7 @@ const portfolioItems = [
     title: "Fitness Brand Reel",
     client: "Peak Performance",
     image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800",
+    gallery: []
   },
   {
     id: 6,
@@ -86,14 +120,69 @@ const portfolioItems = [
     title: "Real Estate Leads",
     client: "Sunshine Homes",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?auto=format&fit=crop&q=80&w=1200"
+    ]
+  },
+  {
+    id: 7,
+    category: "Photography",
+    title: "Clean Culture",
+    client: "The Original Outdoor Automotive Event",
+    image: "/portfolio/photography/clean-culture/thumbnail.jpg",
+    gallery: [
+      "/portfolio/photography/clean-culture/1.jpg",
+      "/portfolio/photography/clean-culture/2.jpg",
+      "/portfolio/photography/clean-culture/3.jpg",
+      "/portfolio/photography/clean-culture/4.jpg",
+      "/portfolio/photography/clean-culture/5.jpg",
+      "/portfolio/photography/clean-culture/6.jpg",
+      "/portfolio/photography/clean-culture/7.jpg",
+      "/portfolio/photography/clean-culture/8.jpg"
+    ]
+  },
+  {
+    id: 8,
+    category: "Photography",
+    title: "The FIRM",
+    client: "Motorsport Facility in Starke, Florida",
+    image: "/portfolio/photography/the-firm/thumbnail.jpg",
+    gallery: [
+      "/portfolio/photography/the-firm/1.jpg",
+      "/portfolio/photography/the-firm/2.jpg",
+      "/portfolio/photography/the-firm/3.jpg",
+      "/portfolio/photography/the-firm/4.jpg",
+      "/portfolio/photography/the-firm/5.jpg",
+      "/portfolio/photography/the-firm/6.jpg",
+      "/portfolio/photography/the-firm/7.jpg",
+      "/portfolio/photography/the-firm/8.jpg"
+    ]
+  },
+  {
+    id: 9,
+    category: "Photography",
+    title: "1Exotics",
+    client: "1Exotics",
+    image: "/portfolio/photography/1exotics/thumbnail.jpg",
+    gallery: [
+      "/portfolio/photography/1exotics/1.jpg",
+      "/portfolio/photography/1exotics/2.jpg",
+      "/portfolio/photography/1exotics/3.jpg",
+      "/portfolio/photography/1exotics/4.jpg",
+      "/portfolio/photography/1exotics/5.jpg",
+      "/portfolio/photography/1exotics/6.jpg",
+      "/portfolio/photography/1exotics/7.jpg"
+    ]
   }
 ];
 
 // --- Components ---
 
 const NavLink = ({ href, children, onClick, mobile = false }) => (
-  <a 
-    href={href} 
+  <a
+    href={href}
     onClick={onClick}
     className={`${mobile ? 'block py-3 text-xl' : ''} font-medium hover:text-red-600 transition-colors duration-300 uppercase tracking-wider text-sm`}
   >
@@ -119,7 +208,7 @@ const Button = ({ children, variant = 'primary', className = '', ...props }) => 
 // Reusable Logo Component with Error Handling
 const BrandLogo = ({ isScrolled, isFooter = false }) => {
   const [imgError, setImgError] = useState(false);
-  
+
   // Logo file in public folder
   const logoSrc = "headerlogo.png";
 
@@ -138,12 +227,111 @@ const BrandLogo = ({ isScrolled, isFooter = false }) => {
   }
 
   return (
-    <img 
-      src={logoSrc} 
-      alt="Florida Focus Logo" 
+    <img
+      src={logoSrc}
+      alt="Florida Focus Logo"
       onError={() => setImgError(true)}
-      className={`h-14 w-auto object-contain bg-white/95 rounded-md px-2 py-1 ${isFooter ? 'h-10' : ''}`} 
+      className={`h-14 w-auto object-contain bg-white/95 rounded-md px-2 py-1 ${isFooter ? 'h-10' : ''}`}
     />
+  );
+};
+
+const CarouselModal = ({ isOpen, onClose, images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      setCurrentIndex(0);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowRight') handleNext(e);
+    if (e.key === 'ArrowLeft') handlePrev(e);
+    if (e.key === 'Escape') onClose();
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, currentIndex]); // Re-bind when index changes to capture latest state if needed, though functional update handles it.
+
+  if (!isOpen || !images || images.length === 0) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4"
+      onClick={onClose}
+      style={{ animation: 'fadeIn 0.3s ease-out forwards' }}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
+      >
+        <X size={40} />
+      </button>
+
+      <div
+        className="relative w-full max-w-6xl aspect-[16/9] flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+        style={{ animation: 'zoomIn 0.3s ease-out forwards' }}
+      >
+        {images.length > 1 && (
+          <button
+            onClick={handlePrev}
+            className="absolute left-4 md:-left-12 p-2 text-white/70 hover:text-white transition-colors z-10"
+          >
+            <ChevronLeft size={48} />
+          </button>
+        )}
+
+        <img
+          src={images[currentIndex]}
+          alt={`Gallery image ${currentIndex + 1}`}
+          className="max-h-[85vh] max-w-full object-contain rounded-sm shadow-2xl"
+        />
+
+        {images.length > 1 && (
+          <button
+            onClick={handleNext}
+            className="absolute right-4 md:-right-12 p-2 text-white/70 hover:text-white transition-colors z-10"
+          >
+            <ChevronRight size={48} />
+          </button>
+        )}
+
+        {images.length > 1 && (
+          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all ${idx === currentIndex ? 'bg-red-600 w-6' : 'bg-white/50 hover:bg-white'
+                  }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -154,6 +342,8 @@ export default function App() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState('idle');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   // Handle Scroll Effect for Navbar
   useEffect(() => {
@@ -165,9 +355,20 @@ export default function App() {
   }, []);
 
   // Filter Logic
-  const filteredPortfolio = activeFilter === 'All' 
-    ? portfolioItems 
+  const allFilteredItems = activeFilter === 'All'
+    ? portfolioItems
     : portfolioItems.filter(item => item.category === activeFilter);
+
+  const visiblePortfolio = allFilteredItems.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 6);
+  };
+
+  // Reset visible count when filter changes
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [activeFilter]);
 
   const handleScrollTo = (id) => {
     setIsMenuOpen(false);
@@ -187,9 +388,22 @@ export default function App() {
     }, 1500);
   };
 
+  const handleProjectClick = (item) => {
+    if (item.category === 'Photography' || item.category === 'Advertising') {
+      setSelectedProject(item);
+    }
+    // Future: Handle Videography click
+  };
+
   return (
     <div className="min-h-screen font-sans text-gray-900 bg-white selection:bg-red-600 selection:text-white">
-      
+
+      <CarouselModal
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        images={selectedProject?.gallery}
+      />
+
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-xl py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
@@ -219,10 +433,10 @@ export default function App() {
         {isMenuOpen && (
           <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white space-y-6 z-40" style={{ animation: 'fadeIn 0.3s ease-out forwards' }}>
             {['Services', 'Portfolio', 'About', 'Contact'].map((item, index) => (
-              <NavLink 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
-                mobile 
+              <NavLink
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                mobile
                 onClick={(e) => { e.preventDefault(); handleScrollTo(item.toLowerCase()); }}
                 className="opacity-0"
                 style={{
@@ -240,9 +454,9 @@ export default function App() {
       <header className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1920" 
-            alt="Camera Lens" 
+          <img
+            src="/landing.jpg"
+            alt="Camera Lens"
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60"></div>
@@ -303,18 +517,17 @@ export default function App() {
               <h2 className="text-4xl font-bold mb-2">Selected Work</h2>
               <div className="w-20 h-1 bg-red-600"></div>
             </div>
-            
+
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-2">
               {['All', 'Photography', 'Videography', 'Advertising'].map((filter) => (
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors rounded-full border ${
-                    activeFilter === filter 
-                    ? 'bg-red-600 border-red-600 text-white' 
+                  className={`px-4 py-2 text-sm font-medium transition-colors rounded-full border ${activeFilter === filter
+                    ? 'bg-red-600 border-red-600 text-white'
                     : 'bg-transparent border-neutral-700 text-gray-400 hover:text-white hover:border-white'
-                  }`}
+                    }`}
                 >
                   {filter}
                 </button>
@@ -324,12 +537,16 @@ export default function App() {
 
           {/* Portfolio Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPortfolio.map((item) => (
-              <div key={item.id} className="group relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer bg-neutral-900">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+            {visiblePortfolio.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => handleProjectClick(item)}
+                className="group relative overflow-hidden rounded-lg aspect-[4/3] cursor-pointer bg-neutral-900"
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100 ${item.imagePosition || ''}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-end p-6">
                   <span className="text-red-500 text-xs font-bold uppercase tracking-wider mb-1">{item.category}</span>
@@ -342,6 +559,15 @@ export default function App() {
               </div>
             ))}
           </div>
+
+          {/* Load More Button */}
+          {visibleCount < allFilteredItems.length && (
+            <div className="mt-12 text-center">
+              <Button variant="outline" onClick={handleLoadMore} className="border-neutral-700 text-gray-300 hover:bg-neutral-800 hover:border-neutral-600">
+                Load More Work
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -352,9 +578,9 @@ export default function App() {
             <div className="lg:w-1/2 relative">
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-red-600/20 rounded-full blur-2xl"></div>
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
-                 <img 
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" 
-                  alt="Team working" 
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"
+                  alt="Team working"
                   className="w-full"
                 />
               </div>
@@ -382,7 +608,7 @@ export default function App() {
               <p className="text-gray-600 mb-8">
                 Whether you are a startup looking for your first campaign or an established brand needing a refresh, our team combines technical precision in photography and video with the analytical power of targeted advertising.
               </p>
-              
+
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {['Creative Direction', 'Social Strategy', '4K Production', 'Analytics'].map((item) => (
                   <div key={item} className="flex items-center gap-2">
@@ -405,13 +631,13 @@ export default function App() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col md:flex-row">
-            
+
             {/* Contact Info */}
             <div className="bg-black text-white p-12 md:w-2/5 flex flex-col justify-between">
               <div>
                 <h3 className="text-2xl font-bold mb-6">Let's Talk Business</h3>
                 <p className="text-gray-400 mb-8">Ready to elevate your brand visuals? Fill out the form and we'll get back to you within 24 hours.</p>
-                
+
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <Mail className="text-red-600" size={20} />
@@ -444,7 +670,7 @@ export default function App() {
                   </div>
                   <h4 className="text-2xl font-bold mb-2">Message Sent!</h4>
                   <p className="text-gray-500">Thanks for reaching out. We'll be in touch shortly.</p>
-                  <button 
+                  <button
                     onClick={() => setFormStatus('idle')}
                     className="mt-6 text-red-600 font-bold hover:text-red-700 text-sm uppercase"
                   >
@@ -455,39 +681,39 @@ export default function App() {
                 <form onSubmit={handleFormSubmit} className="space-y-6">
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Full Name</label>
-                    <input 
+                    <input
                       required
-                      type="text" 
+                      type="text"
                       className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-red-600 transition-colors bg-transparent"
                       placeholder="John Doe"
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Email Address</label>
-                    <input 
+                    <input
                       required
-                      type="email" 
+                      type="email"
                       className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-red-600 transition-colors bg-transparent"
                       placeholder="john@example.com"
                       value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Project Details</label>
-                    <textarea 
+                    <textarea
                       required
                       rows={4}
                       className="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-red-600 transition-colors bg-transparent resize-none"
                       placeholder="Tell us about your vision..."
                       value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     ></textarea>
                   </div>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full flex justify-center items-center gap-2"
                     disabled={formStatus === 'submitting'}
                   >
@@ -505,7 +731,7 @@ export default function App() {
       <footer className="bg-black text-white py-12 border-t border-gray-900">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0 text-center md:text-left">
-             <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
+            <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
               <BrandLogo isScrolled={true} isFooter={true} />
             </div>
             <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Florida Focus LLC. All rights reserved.</p>
