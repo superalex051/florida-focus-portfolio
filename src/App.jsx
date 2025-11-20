@@ -217,9 +217,18 @@ export default function App() {
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center text-white space-y-6 z-40">
-            {['Services', 'Portfolio', 'About', 'Contact'].map((item) => (
-              <NavLink key={item} href={`#${item.toLowerCase()}`} mobile onClick={(e) => { e.preventDefault(); handleScrollTo(item.toLowerCase()); }}>
+          <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white space-y-6 z-40" style={{ animation: 'fadeIn 0.3s ease-out forwards' }}>
+            {['Services', 'Portfolio', 'About', 'Contact'].map((item, index) => (
+              <NavLink 
+                key={item} 
+                href={`#${item.toLowerCase()}`} 
+                mobile 
+                onClick={(e) => { e.preventDefault(); handleScrollTo(item.toLowerCase()); }}
+                className="opacity-0"
+                style={{
+                  animation: `fadeInUp 0.4s ease-out ${index * 0.1 + 0.2}s forwards`
+                }}
+              >
                 {item}
               </NavLink>
             ))}
