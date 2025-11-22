@@ -67,21 +67,29 @@ const portfolioItems = [
   {
     id: 2,
     category: "Videography",
-    title: "Coffee Shop Promo",
-    client: "Brew & Bean",
-    image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
-    gallery: [] // Video items will be handled differently later
+    title: "BlackLimo LLC",
+    client: "Luxury Transportation Services",
+    image: "/portfolio/videography/blacklimo-llc/thumbnail.jpg",
+    gallery: ["/portfolio/videography/blacklimo-llc/video.mp4"]
   },
   {
     id: 3,
     category: "Advertising",
-    title: "Summer Campaign",
-    client: "Florida Resorts",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    title: "BlackLimo LLC Leads",
+    client: "Lead Generation Campaign",
+    image: "/portfolio/advertising/blacklimo-leads/thumbnail.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200"
+      {
+        src: "/portfolio/advertising/blacklimo-leads/1.jpg",
+        caption: "Strategic ad placement targeting high-net-worth individuals in South Florida."
+      },
+      {
+        src: "/portfolio/advertising/blacklimo-leads/2.jpg",
+        caption: "Optimized photos that can be used for social media and print ads."
+      },
+      "/portfolio/advertising/blacklimo-leads/3.jpg",
+      "/portfolio/advertising/blacklimo-leads/4.jpg",
+      "/portfolio/advertising/blacklimo-leads/5.jpg"
     ]
   },
   {
@@ -109,21 +117,55 @@ const portfolioItems = [
   {
     id: 5,
     category: "Videography",
-    title: "Fitness Brand Reel",
-    client: "Peak Performance",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800",
-    gallery: []
+    title: "Preferred Exotics",
+    client: "Miami's Luxury Vehicle Rental",
+    image: "/portfolio/videography/preferred-exotics/thumbnail.jpg",
+    gallery: [
+      "/portfolio/videography/preferred-exotics/video1.mp4",
+      "/portfolio/videography/preferred-exotics/video2.mp4"
+    ]
+  },
+  {
+    id: 10,
+    category: "Videography",
+    title: "Boca Boys Window Cleaning",
+    client: "Residential & Commercial Cleaning",
+    image: "/portfolio/videography/boca-boys/thumbnail.jpg",
+    gallery: [
+      "/portfolio/videography/boca-boys/video1.mp4",
+      "/portfolio/videography/boca-boys/video2.mp4"
+    ]
+  },
+  {
+    id: 11,
+    category: "Videography",
+    title: "Vivid Music Hall",
+    client: "Live Music Venue",
+    image: "/portfolio/videography/vivid-music-hall/thumbnail.jpg",
+    gallery: [
+      "/portfolio/videography/vivid-music-hall/video.mp4"
+    ]
   },
   {
     id: 6,
     category: "Advertising",
-    title: "Real Estate Leads",
-    client: "Sunshine Homes",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800",
+    title: "WeShareSpaces Campaign",
+    client: "Media Overhaul for Warehouse Rental Company",
+    image: "/portfolio/advertising/wesharespaces/thumbnail.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?auto=format&fit=crop&q=80&w=1200"
+      {
+        src: "/portfolio/advertising/wesharespaces/video1.mp4",
+        caption: "Tailor-made videos, shareable across all social media platforms."
+      },
+      "/portfolio/advertising/wesharespaces/video2.mp4",
+      {
+        src: "/portfolio/advertising/wesharespaces/1.jpg",
+        caption: "High resolution photos, showcasing the actual warehouse conditions."
+      },
+      "/portfolio/advertising/wesharespaces/2.jpg",
+      "/portfolio/advertising/wesharespaces/3.jpg",
+      "/portfolio/advertising/wesharespaces/4.jpg",
+      "/portfolio/advertising/wesharespaces/5.jpg"
     ]
   },
   {
@@ -164,7 +206,7 @@ const portfolioItems = [
     id: 9,
     category: "Photography",
     title: "1Exotics",
-    client: "1Exotics",
+    client: "South Florida Vehicle Rental",
     image: "/portfolio/photography/1exotics/thumbnail.jpg",
     gallery: [
       "/portfolio/photography/1exotics/1.jpg",
@@ -272,9 +314,14 @@ const CarouselModal = ({ isOpen, onClose, images }) => {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex]); // Re-bind when index changes to capture latest state if needed, though functional update handles it.
+  }, [isOpen, currentIndex]);
 
   if (!isOpen || !images || images.length === 0) return null;
+
+  const currentItem = images[currentIndex];
+  const itemSrc = typeof currentItem === 'string' ? currentItem : currentItem.src;
+  const itemCaption = typeof currentItem === 'object' ? currentItem.caption : null;
+  const isVideo = (itemSrc.endsWith('.mov') || itemSrc.endsWith('.mp4'));
 
   return (
     <div
@@ -284,13 +331,13 @@ const CarouselModal = ({ isOpen, onClose, images }) => {
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
+        className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50"
       >
         <X size={40} />
       </button>
 
       <div
-        className="relative w-full max-w-6xl aspect-[16/9] flex items-center justify-center"
+        className="relative max-h-[85vh] max-w-6xl flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: 'zoomIn 0.3s ease-out forwards' }}
       >
@@ -303,11 +350,37 @@ const CarouselModal = ({ isOpen, onClose, images }) => {
           </button>
         )}
 
-        <img
-          src={images[currentIndex]}
-          alt={`Gallery image ${currentIndex + 1}`}
-          className="max-h-[85vh] max-w-full object-contain rounded-sm shadow-2xl"
-        />
+        {isVideo ? (
+          <div className="flex flex-col items-center">
+            <video
+              key={itemSrc}
+              controls
+              autoPlay
+              className="max-h-[80vh] max-w-full rounded-lg shadow-2xl"
+            >
+              <source src={itemSrc} />
+              Your browser does not support the video tag.
+            </video>
+            {itemCaption && (
+              <div className="mt-4 bg-black/80 text-white px-6 py-3 rounded-full text-sm md:text-base max-w-2xl text-center backdrop-blur-sm border border-white/10">
+                {itemCaption}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center">
+            <img
+              src={itemSrc}
+              alt={`Gallery item ${currentIndex + 1}`}
+              className="max-h-[80vh] max-w-full object-contain rounded-sm shadow-2xl"
+            />
+            {itemCaption && (
+              <div className="mt-4 bg-black/80 text-white px-6 py-3 rounded-full text-sm md:text-base max-w-2xl text-center backdrop-blur-sm border border-white/10">
+                {itemCaption}
+              </div>
+            )}
+          </div>
+        )}
 
         {images.length > 1 && (
           <button
@@ -378,21 +451,39 @@ export default function App() {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('submitting');
-    // Mock submission
-    setTimeout(() => {
-      setFormStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycby7qAMOsu96O0_W-D2VhefiGKPINZpxo2suI-UF8S2qP_nRxPSNuxGSzsZTlXK7JnW1kw/exec';
+    const form = new FormData();
+    form.append('name', formData.name);
+    form.append('email', formData.email);
+    form.append('message', formData.message);
+
+    try {
+      const response = await fetch(scriptURL, { method: 'POST', body: form });
+      const data = await response.json(); // Parse the JSON response
+
+      if (response.ok && data.result === 'success') {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        // Handle error object properly
+        const errorMessage = typeof data.error === 'object'
+          ? JSON.stringify(data.error)
+          : data.error || `Server returned ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.error('Form Submission Error:', error);
+      setFormStatus('idle');
+      alert(`Error: ${error.message}`);
+    }
   };
 
   const handleProjectClick = (item) => {
-    if (item.category === 'Photography' || item.category === 'Advertising') {
-      setSelectedProject(item);
-    }
-    // Future: Handle Videography click
+    setSelectedProject(item);
   };
 
   return (
@@ -454,11 +545,16 @@ export default function App() {
       <header className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="/landing.jpg"
-            alt="Camera Lens"
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="/landing.jpg"
             className="w-full h-full object-cover opacity-40"
-          />
+          >
+            <source src="/landing.mp4?v=2" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60"></div>
         </div>
 
@@ -579,7 +675,7 @@ export default function App() {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-red-600/20 rounded-full blur-2xl"></div>
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"
+                  src="/about-team.jpg"
                   alt="Team working"
                   className="w-full"
                 />
