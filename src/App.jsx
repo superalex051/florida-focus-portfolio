@@ -356,7 +356,9 @@ const CarouselModal = ({ isOpen, onClose, images }) => {
               key={itemSrc}
               controls
               autoPlay
-              className="max-h-[80vh] max-w-full rounded-lg shadow-2xl"
+              playsInline
+              preload="auto"
+              className="max-h-[80vh] max-w-full rounded-lg shadow-2xl bg-black"
             >
               <source src={itemSrc} />
               Your browser does not support the video tag.
@@ -417,6 +419,7 @@ export default function App() {
   const [formStatus, setFormStatus] = useState('idle');
   const [selectedProject, setSelectedProject] = useState(null);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   // Handle Scroll Effect for Navbar
   useEffect(() => {
@@ -545,14 +548,20 @@ export default function App() {
       <header className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
+          <img
+            src="/landing.jpg"
+            alt="Background"
+            className={`absolute inset-0 w-full h-full object-cover ${videoLoaded ? 'opacity-0' : 'opacity-40'}`}
+          />
           <video
             autoPlay
             loop
             muted
             playsInline
-            poster="/landing.jpg"
-            className="w-full h-full object-cover opacity-40"
+            onLoadedData={() => setVideoLoaded(true)}
+            className={`absolute inset-0 w-full h-full object-cover ${videoLoaded ? 'opacity-40' : 'opacity-0'}`}
           >
+            <source src="/landing-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
             <source src="/landing.mp4?v=2" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60"></div>
