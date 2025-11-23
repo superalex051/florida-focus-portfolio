@@ -561,8 +561,7 @@ export default function App() {
             onLoadedData={() => setVideoLoaded(true)}
             className={`absolute inset-0 w-full h-full object-cover ${videoLoaded ? 'opacity-40' : 'opacity-0'}`}
           >
-            <source src="/landing-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
-            <source src="/landing.mp4?v=2" type="video/mp4" />
+            <source src="/landing.mp4?v=3" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60"></div>
         </div>
